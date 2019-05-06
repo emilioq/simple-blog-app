@@ -1,0 +1,106 @@
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'css/index.css'%}">
+        
+        <title>Simple Blog</title>
+    </head>
+
+    <body style="background:#f0f0f0 !important;">
+
+        <div class="wrap">
+
+        <!-- BLOG TITLE-->
+        <div>
+            <h1 class="display-1 text-center p-5"><a href="/"> Simple Blog </a></h1>
+        </div>
+
+        {% block content %}
+
+        <!-- NEW BLOG ENTRY -->
+        <!-- Button trigger-->
+        <div class="text-center">
+        <button type="button" class="btn btn-outline-primary mb-5" data-toggle="modal" data-target="#post-form">
+            + New Entry
+        </button>
+        </div>
+        <!-- Modal (Form) -->
+        <div class="modal fade" id="post-form" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title font-weight-bold">New Blog Entry</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{% url 'post_new' %}" method="POST">{% csrf_token %}
+                            <div class="form-group m-0">
+                                <input required type="text" class="form-control form-control-lg mb-3" name="title"  placeholder="Title" value={{title}}>
+                                <textarea class="form-control" name="description" rows="12" placeholder="Description" value={{description}}></textarea>
+                            </div>
+                    </div>
+                    <div class="modal-footer pt-0">
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+                        <input type="submit" class="btn btn-outline-primary" value="Post">
+                    </div>
+                        </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- POST LIST -->
+        <div class="container">
+            <div class="row">
+            {% for p in posts %}
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <a href="{% url 'index' %}p/{{p.post_id}}" target="_blank">
+                            <h2 class="card-title font-weight-light"> {{ p.title }} </h2>
+                        </a>
+                        <!-- <p class="card-text">{{ p.description }}</p> -->
+                        <div class="container">
+                            <div class = "row">
+                                <div class="col p-0">
+                                    <p class="card-text"><small class="text-muted"> Posted {{ p.date|timesince }} ago</small></p>
+                                </div>
+                                <div class="col p-0">
+                                    <div class="dropdown">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" href="#">Edit</a>
+                                            <a class="dropdown-item" href="#">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            </div>
+        </div>
+
+        {% endblock content %}
+
+        <div class="footer py-5 mt-5">
+            <h6 class="text-center"> <small class="text-muted"> hi im emilio and i made this. there's nothing else down here. </small> </h1>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+        </div>
+
+    </body>
+
+</html>
+
+

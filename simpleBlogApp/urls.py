@@ -23,4 +23,6 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('p/new/', views.postNew, name='post_new'),
     path('p/<int:id>/', views.postDetail, name='post_detail'),
+    path('edit/<int:id>/', views.postEdit, name='post_edit'),
+    path('del/<int:id>/', views.postDelete, name='post_delete'),
 ]

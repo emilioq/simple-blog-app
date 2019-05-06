@@ -19,15 +19,20 @@
             <h1 class="display-1 text-center p-5"><a href="/"> Simple Blog </a></h1>
         </div>
 
+
+
         {% block content %}
 
-        <!-- NEW BLOG ENTRY -->
-        <!-- Button trigger-->
+
+
+        <!-- NEW BLOG ENTRY BUTTON -->
         <div class="text-center">
         <button type="button" class="btn btn-outline-primary mb-5" data-toggle="modal" data-target="#post-form">
             + New Entry
         </button>
         </div>
+        
+        
         <!-- Modal (Form) -->
         <div class="modal fade" id="post-form" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -87,8 +92,11 @@
             </div>
         </div>
 
+
+
         {% endblock content %}
 
+        <!-- FOOTER -->
         <div class="footer py-5 mt-5">
             <h6 class="text-center"> <small class="text-muted"> hi im emilio and i made this. there's nothing else down here. </small> </h1>
         </div>

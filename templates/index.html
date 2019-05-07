@@ -64,25 +64,26 @@
             <div class="col-md-6">
                 <div class="card mb-4">
                     <div class="card-body">
-                        <a href="{% url 'index' %}p/{{p.post_id}}" target="_blank">
-                            <h2 class="card-title font-weight-light"> {{ p.title }} </h2>
-                        </a>
+                        <a href="{% url 'index' %}p/{{p.post_id}}" target="_blank"> <h2 class="card-title font-weight-light"> {{ p.title }} </h2> </a>
                         <!-- <p class="card-text">{{ p.description }}</p> -->
                         <div class="container">
                             <div class = "row">
                                 <div class="col p-0">
                                     <p class="card-text"><small class="text-muted"> Posted {{ p.date|timesince }} ago</small></p>
                                 </div>
+
+                                <!--DROPDOWN MENU-->
                                 <div class="col p-0">
                                     <div class="dropdown">
                                         <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="#">Edit</a>
-                                            <a class="dropdown-item" href="#">Delete</a>
+                                            <a class="dropdown-item" href="{% url 'index' %}edit/{{p.post_id}}">Edit</a>
+                                            <a class="dropdown-item" href="{% url 'index' %}del/{{p.post_id}}">Delete</a>
                                         </div>
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>

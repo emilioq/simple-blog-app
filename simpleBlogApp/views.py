@@ -16,8 +16,7 @@ def postNew(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
-            submission = form.save(commit=False)
-            submission.save()
+            form.save()
             return redirect('index')
         else:
             return render(request, 'error.html')
@@ -39,7 +38,12 @@ def postDelete(request, id):
 
 
 def postEdit(request, id):
-    if Post.objects.filter(post_id = id).exists():
-        post = Post.objects.get(post_id=id)
-        return render(request, 'post.html', context={'post': post})
-    return render(request, 'error.html')
+    if request.method == 'POST':
+        oldPost = Post.objects.get(post_id = id)
+        form = PostForm(request.POST, instance=oldPost)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+        else:
+            return render(request, 'error.html')
+    return redirect('index')

@@ -24,7 +24,6 @@
         {% block content %}
 
 
-
         <!-- NEW BLOG ENTRY BUTTON -->
         <div class="text-center">
         <button type="button" class="btn btn-outline-primary mb-5" data-toggle="modal" data-target="#post-form">
@@ -57,31 +56,30 @@
         </div>
 
         
-
-
         <!-- POST LIST -->
         <div class="container">
             <div class="row">
-            {% for p in posts %}
-            <div class="col-md-6">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <a href="{% url 'index' %}p/{{p.post_id}}" target="_blank"> <h2 class="card-title font-weight-light"> {{ p.title }} </h2> </a>
-                        <!-- <p class="card-text">{{ p.description }}</p> -->
-                        <div class="container">
-                            <div class = "row">
-                                <div class="col p-0">
-                                    <p class="card-text"><small class="text-muted"> Posted {{ p.date|timesince }} ago</small></p>
-                                </div>
+                {% for p in posts %}
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <a href="p/{{p.post_id}}" target="_blank"> <h2 class="card-title font-weight-light"> {{ p.title }} </h2> </a>
+                            <!-- <p class="card-text">{{ p.description }}</p> -->
+                            <div class="container">
+                                <div class = "row">
+                                    <div class="col p-0">
+                                        <p class="card-text"><small class="text-muted"> Last updated {{ p.date|timesince }} ago</small></p>
+                                    </div>
 
-                                <!--DROPDOWN MENU-->
-                                <div class="col p-0">
-                                    <div class="dropdown">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="{% url 'index' %}edit/{{p.post_id}}">Edit</a>
-                                            <a class="dropdown-item" data-toggle="modal" data-target="#delete-modal">Delete</a>
+                                    <!--DROPDOWN MENU-->
+                                    <div class="col p-0">
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" data-toggle="modal" data-target="#edit-modal-{{p.post_id}}">Edit</a>
+                                                <a class="dropdown-item" data-toggle="modal" data-target="#delete-modal-{{p.post_id}}">Delete</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -89,57 +87,52 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Modal (Delete) -->
-            <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal" role="document">
-                    <div class="modal-content pb-2">
-                        <div class="modal-header">
-                            <h5 class="modal-title font-weight-bold">Delete Blog Entry</h5>
+                <!-- Modal (Delete) -->
+                <div class="modal fade" id="delete-modal-{{p.post_id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal" role="document">
+                        <div class="modal-content pb-2">
+                            <div class="modal-header">
+                                <h5 class="modal-title font-weight-bold">Delete Blog Entry</h5>
+                            </div>
+        
+                            <div class="modal-body text-center" id="details">
+                                Are you sure you want to delete this post? (id: 100{{p.post_id}})
+                            </div>
+        
+                            <div class="modal-footer" style="justify-content: center;">
+                                <a class="btn btn-outline-danger m-2" href="del/{{p.post_id}}"> Yes, I'm sure. </a>
+                                <button type="button" class="btn btn-outline-secondary m-2" data-dismiss="modal"> Cancel </button>
+                            </div>                    
                         </div>
-
-                        <div class="modal-body text-center">
-                            Are you sure you want to delete this post?
-                        </div>
-
-                        <div class="modal-footer" style="justify-content: center;">
-                            <a class="btn btn-outline-danger m-2" href="{% url 'index' %}del/{{p.post_id}}"> Yes, I'm sure. </a>
-                            <button type="button" class="btn btn-outline-secondary m-2" data-dismiss="modal"> Cancel </button>
-                        </div>                    
                     </div>
                 </div>
-            </div>
-
-            <!-- Modal (Edit) -->
-            <div class="modal fade" id="post-form" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title font-weight-bold">Edit Blog Entry</h5>
+            
+                <!-- Modal (Edit) -->
+                <div class="modal fade" id="edit-modal-{{p.post_id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title font-weight-bold">Edit Blog Entry</h5>
+                            </div>
+                            <div class="modal-body">
+                                <form action="edit/{{p.post_id}}/" method="POST">{% csrf_token %}
+                                    <div class="form-group m-0">
+                                        <input required type="text" class="form-control form-control-lg mb-3" name="title"  placeholder="Title" value="{{p.title}}">
+                                        <textarea class="form-control" name="description" rows="12" placeholder="Description">{{p.description}}</textarea>
+                                    </div>
+                            </div>
+                            <div class="modal-footer pt-0">
+                                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+                                <input type="submit" class="btn btn-outline-primary" value="Post">
+                            </div>
+                                </form>
                         </div>
-                        <div class="modal-body">
-                            <form action="{% url 'post_new' %}" method="POST">{% csrf_token %}
-                                <div class="form-group m-0">
-                                    <input required type="text" class="form-control form-control-lg mb-3" name="title"  placeholder="Title" value={{title}}>
-                                    <textarea class="form-control" name="description" rows="12" placeholder="Description" value={{description}}></textarea>
-                                </div>
-                        </div>
-                        <div class="modal-footer pt-0">
-                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
-                            <input type="submit" class="btn btn-outline-primary" value="Post">
-                        </div>
-                            </form>
                     </div>
                 </div>
-            </div>
-
-
-            {% endfor %}
+                {% endfor %}
             </div>
         </div>
-
-
 
 
         {% endblock content %}
